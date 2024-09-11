@@ -6,7 +6,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "tb_sugestao")
-public class Sugestao {
+public class Sugestao implements Comparable<Sugestao> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -78,12 +78,12 @@ public class Sugestao {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Sugestao sugestao = (Sugestao) o;
-        return getId() == sugestao.getId();
+        return getId() == sugestao.getId() && Objects.equals(getDataAtualizacao(), sugestao.getDataAtualizacao());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(getId());
+        return Objects.hash(getId(), getDataAtualizacao());
     }
 
     @Override
@@ -95,5 +95,10 @@ public class Sugestao {
                 ", dataEnvio=" + dataEnvio +
                 ", dataAtualizacao=" + dataAtualizacao +
                 '}';
+    }
+
+    @Override
+    public int compareTo(Sugestao o) {
+        return getDataAtualizacao().compareTo(o.getDataAtualizacao());
     }
 }
