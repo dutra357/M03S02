@@ -12,25 +12,27 @@ public class Comentario implements Comparable<Comentario> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    long id;
-
-    Sugestao sugestaoId;
+    private long id;
 
     @Column(name = "descricao", length = 250, nullable = false)
-    String textoComentario;
+    private String textoComentario;
 
     @Column(name = "data_envio", nullable = false)
-    LocalDate dataEnvio;
+    private LocalDate dataEnvio;
+
+    @ManyToOne
+    private Sugestao sugestao;
 
 
     public Comentario() {
     }
     public Comentario(long id, Sugestao sugestaoId, String textoComentario, LocalDate dataEnvio) {
         this.id = id;
-        this.sugestaoId = sugestaoId;
+        this.sugestao = sugestaoId;
         this.textoComentario = textoComentario;
         this.dataEnvio = dataEnvio;
     }
+
 
     public long getId() {
         return id;
@@ -41,11 +43,11 @@ public class Comentario implements Comparable<Comentario> {
     }
 
     public Sugestao getSugestaoId() {
-        return sugestaoId;
+        return sugestao;
     }
 
     public void setSugestaoId(Sugestao sugestaoId) {
-        this.sugestaoId = sugestaoId;
+        this.sugestao = sugestaoId;
     }
 
     public String getTextoComentario() {
@@ -81,7 +83,7 @@ public class Comentario implements Comparable<Comentario> {
     public String toString() {
         return "Comentario{" +
                 "id=" + id +
-                ", sugestaoId=" + sugestaoId +
+                ", sugestaoId=" + sugestao +
                 ", textoComentario='" + textoComentario + '\'' +
                 ", dataEnvio=" + dataEnvio +
                 '}';

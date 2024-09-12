@@ -1,5 +1,7 @@
 package com.exercicio.M03S02.service;
 
+import com.exercicio.M03S02.entities.Comentario;
+import com.exercicio.M03S02.entities.DataTransfer.SugestaoResponseDTO;
 import com.exercicio.M03S02.entities.Sugestao;
 import com.exercicio.M03S02.repository.SugestaoRepo;
 import com.exercicio.M03S02.service.interfaces.SugestaoInterface;
@@ -42,7 +44,7 @@ public class SugestaoService implements SugestaoInterface {
     }
 
     @Override
-    public Sugestao obterSugestaoPorId(Long id) {
+    public SugestaoResponseDTO obterSugestaoPorId(Long id) {
         if (!repository.existsById(id)) {
             //logger.error("Sugestão não encontrada, ID info: {}", id);
             throw new ResponseStatusException(
@@ -50,6 +52,31 @@ public class SugestaoService implements SugestaoInterface {
             );
         }
         //logger.info("Retornando Curso solicidato, ID {}", id);
-        return repository.findById(id).get();
+
+        Sugestao encontrada = repository.findById(id).get();
+        SugestaoResponseDTO resposta = new SugestaoResponseDTO(encontrada);
+
+        var ordenados = encontrada.getComentarios();
+        Collections.sort(ordenados);
+        resposta.setComentarios(ordenados);
+
+        return resposta;
+    }
+
+    @Override
+    public Comentario cadastrarComentario(Long id, Comentario comentario) {
+        if (!repository.existsById(id)) {
+            //logger.error("Sugestão não encontrada, ID info: {}", id);
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "Sugestão não encontrada."
+            );
+        }
+        //logger.info("Retornando Curso solicidato, ID {}", id);
+
+        Sugestao sugestao = repository.findById(id).get();
+        sugestao.adicionaComentario(comentario);
+
+        repository.save(sugestao);
+        return comentario;
     }
 }

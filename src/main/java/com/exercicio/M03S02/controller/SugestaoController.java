@@ -1,5 +1,7 @@
 package com.exercicio.M03S02.controller;
 
+import com.exercicio.M03S02.entities.Comentario;
+import com.exercicio.M03S02.entities.DataTransfer.SugestaoResponseDTO;
 import com.exercicio.M03S02.entities.Sugestao;
 import com.exercicio.M03S02.service.SugestaoService;
 import jakarta.servlet.http.HttpServletResponse;
@@ -33,8 +35,14 @@ public class SugestaoController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Sugestao> obterSugestaoPorId(@PathVariable Long id) {
+    public ResponseEntity<SugestaoResponseDTO> obterSugestaoPorId(@PathVariable Long id) {
         //logger.info("Solicitado dados do Curso ID {}.", id);
         return ResponseEntity.status(HttpStatus.OK).body(service.obterSugestaoPorId(id));
+    }
+
+    @PostMapping("{id}/comentario")
+    public ResponseEntity<Comentario> cadastrarComentario(@PathVariable Long id, @RequestBody Comentario novoComentario) {
+        //logger.info("Solicitado dados do Curso ID {}.", id);
+        return ResponseEntity.status(HttpStatus.OK).body(service.cadastrarComentario(id, novoComentario));
     }
 }

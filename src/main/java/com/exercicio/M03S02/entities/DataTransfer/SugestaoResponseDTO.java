@@ -1,6 +1,8 @@
 package com.exercicio.M03S02.entities.DataTransfer;
 
 import com.exercicio.M03S02.entities.Comentario;
+import com.exercicio.M03S02.entities.Sugestao;
+
 import java.time.LocalDate;
 import java.util.List;
 
@@ -23,6 +25,15 @@ public class SugestaoResponseDTO {
         this.dataEnvio = dataEnvio;
         this.dataAtualizacao = dataAtualizacao;
         this.comentarios = comentarios;
+    }
+
+    public SugestaoResponseDTO(Sugestao sugestao) {
+        this.id = sugestao.getId();
+        this.titulo = sugestao.getTitulo();
+        this.descricao = sugestao.getDescricao();
+        this.dataEnvio = sugestao.getDataEnvio();
+        this.dataAtualizacao = sugestao.getDataAtualizacao();
+        this.comentarios = sugestao.getComentarios();
     }
 
     public long getId() {

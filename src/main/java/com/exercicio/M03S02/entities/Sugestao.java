@@ -2,6 +2,7 @@ package com.exercicio.M03S02.entities;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -12,21 +13,22 @@ public class Sugestao implements Comparable<Sugestao> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    long id;
+    private long id;
 
     @Column(name = "titulo", length = 100, nullable = false)
-    String titulo;
+    private String titulo;
 
     @Column(name = "descricao", length = 250, nullable = false)
-    String descricao;
+    private String descricao;
 
     @Column(name = "data_envio", nullable = false)
-    LocalDate dataEnvio;
+    private LocalDate dataEnvio;
 
     @Column(name = "data_atualizacao", nullable = false)
-    LocalDate dataAtualizacao;
+    private LocalDate dataAtualizacao;
 
-    List<Comentario> comentarios;
+    @OneToOne
+    private List<Comentario> comentarios;
 
     public Sugestao() {}
     public Sugestao(String titulo, String descricao, LocalDate dataEnvio, LocalDate dataAtualizacao) {
@@ -34,6 +36,15 @@ public class Sugestao implements Comparable<Sugestao> {
         this.descricao = descricao;
         this.dataEnvio = dataEnvio;
         this.dataAtualizacao = dataAtualizacao;
+    }
+
+    public List<Comentario> getComentarios() {
+        return comentarios;
+    }
+
+    public void adicionaComentario(Comentario comentario) {
+        comentarios.add(comentario);
+        this.dataAtualizacao = LocalDate.now();
     }
 
     public long getId() {
