@@ -2,6 +2,7 @@ package com.exercicio.M03S02.entities;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -24,6 +25,8 @@ public class Sugestao implements Comparable<Sugestao> {
 
     @Column(name = "data_atualizacao", nullable = false)
     LocalDate dataAtualizacao;
+
+    List<Comentario> comentarios;
 
     public Sugestao() {}
     public Sugestao(String titulo, String descricao, LocalDate dataEnvio, LocalDate dataAtualizacao) {
