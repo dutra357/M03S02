@@ -1,7 +1,6 @@
 package com.exercicio.M03S02.entities;
 
 import jakarta.persistence.*;
-
 import java.time.LocalDate;
 import java.util.Objects;
 
