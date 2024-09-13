@@ -21,10 +21,10 @@ public class Sugestao implements Comparable<Sugestao> {
     @Column(name = "descricao", length = 250, nullable = false)
     private String descricao;
 
-    @Column(name = "data_envio", nullable = false)
+    @Column(name = "data_envio")
     private LocalDate dataEnvio;
 
-    @Column(name = "data_atualizacao", nullable = false)
+    @Column(name = "data_atualizacao")
     private LocalDate dataAtualizacao;
 
     @OneToMany
@@ -35,15 +35,11 @@ public class Sugestao implements Comparable<Sugestao> {
         this.titulo = titulo;
         this.descricao = descricao;
         this.dataEnvio = LocalDate.now();
+        this.dataAtualizacao = LocalDate.now();
     }
 
     public List<Comentario> getComentarios() {
         return comentarios;
-    }
-
-    public void adicionaComentario(Comentario comentario) {
-        comentarios.add(comentario);
-        this.dataAtualizacao = LocalDate.now();
     }
 
     public long getId() {
@@ -82,8 +78,8 @@ public class Sugestao implements Comparable<Sugestao> {
         return dataAtualizacao;
     }
 
-    public void setDataAtualizacao(LocalDate dataAtualizacao) {
-        this.dataAtualizacao = dataAtualizacao;
+    public void setDataAtualizacao() {
+        this.dataAtualizacao = LocalDate.now();
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.exercicio.M03S02.entities.DataTransfer;
 
 import com.exercicio.M03S02.entities.Comentario;
 import com.exercicio.M03S02.entities.Sugestao;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -13,6 +14,8 @@ public class SugestaoResponseDTO {
     private String descricao;
     private LocalDate dataEnvio;
     private LocalDate dataAtualizacao;
+
+    @JsonIgnore
     private List<Comentario> comentarios;
 
 

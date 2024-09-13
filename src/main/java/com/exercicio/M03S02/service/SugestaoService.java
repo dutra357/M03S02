@@ -5,6 +5,7 @@ import com.exercicio.M03S02.entities.DataTransfer.ComentarioRequestDTO;
 import com.exercicio.M03S02.entities.DataTransfer.SugestaoRequestDTO;
 import com.exercicio.M03S02.entities.DataTransfer.SugestaoResponseDTO;
 import com.exercicio.M03S02.entities.Sugestao;
+import com.exercicio.M03S02.repository.ComentarioRepo;
 import com.exercicio.M03S02.repository.SugestaoRepo;
 import com.exercicio.M03S02.service.interfaces.SugestaoInterface;
 import org.springframework.http.HttpStatus;
@@ -18,8 +19,10 @@ import java.util.List;
 public class SugestaoService implements SugestaoInterface {
 
     private final SugestaoRepo repository;
-    public SugestaoService(SugestaoRepo repository) {
+    public final ComentarioRepo comentarioRepo;
+    public SugestaoService(SugestaoRepo repository, ComentarioRepo comentarioRepo) {
         this.repository = repository;
+        this.comentarioRepo = comentarioRepo;
     }
 
 
@@ -79,11 +82,13 @@ public class SugestaoService implements SugestaoInterface {
         //logger.info("Retornando Curso solicidato, ID {}", id);
 
         Sugestao sugestao = repository.findById(id).get();
-        sugestao.adicionaComentario(comentario);
+        Comentario novoComentario = new Comentario(sugestao, comentario.getComentario());
 
+        //sugestao.adicionaComentario(comentario);
+        comentarioRepo.save(novoComentario);
+        sugestao.setDataAtualizacao();
         repository.save(sugestao);
 
-        
-        return comentario;
+        return novoComentario;
     }
 }

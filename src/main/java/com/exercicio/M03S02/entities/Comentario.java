@@ -17,7 +17,7 @@ public class Comentario implements Comparable<Comentario> {
     @Column(name = "descricao", length = 250, nullable = false)
     private String textoComentario;
 
-    @Column(name = "data_envio", nullable = false)
+    @Column(name = "data_envio")
     private LocalDate dataEnvio;
 
     @JsonIgnore()
