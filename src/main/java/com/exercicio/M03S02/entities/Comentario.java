@@ -1,5 +1,6 @@
 package com.exercicio.M03S02.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.Objects;
@@ -19,17 +20,17 @@ public class Comentario implements Comparable<Comentario> {
     @Column(name = "data_envio", nullable = false)
     private LocalDate dataEnvio;
 
+    @JsonIgnore()
     @ManyToOne
     private Sugestao sugestao;
 
 
     public Comentario() {
     }
-    public Comentario(long id, Sugestao sugestaoId, String textoComentario, LocalDate dataEnvio) {
-        this.id = id;
-        this.sugestao = sugestaoId;
+    public Comentario(Sugestao sugestao, String textoComentario) {
+        this.sugestao = sugestao;
         this.textoComentario = textoComentario;
-        this.dataEnvio = dataEnvio;
+        this.dataEnvio = LocalDate.now();
     }
 
 

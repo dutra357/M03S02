@@ -1,5 +1,6 @@
 package com.exercicio.M03S02.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
@@ -30,11 +31,10 @@ public class Sugestao implements Comparable<Sugestao> {
     private List<Comentario> comentarios;
 
     public Sugestao() {}
-    public Sugestao(String titulo, String descricao, LocalDate dataEnvio, LocalDate dataAtualizacao) {
+    public Sugestao(String titulo, String descricao) {
         this.titulo = titulo;
         this.descricao = descricao;
-        this.dataEnvio = dataEnvio;
-        this.dataAtualizacao = dataAtualizacao;
+        this.dataEnvio = LocalDate.now();
     }
 
     public List<Comentario> getComentarios() {

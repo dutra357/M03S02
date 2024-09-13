@@ -8,7 +8,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
 @OpenAPIDefinition(info = @Info(title = "Swagger OpenApi", version = "1", description = "API - SENAI M03S02"))
-@EnableSwagger2
 public class M03S02Application {
 
 	public static void main(String[] args) {

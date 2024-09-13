@@ -1,6 +1,8 @@
 package com.exercicio.M03S02.service;
 
 import com.exercicio.M03S02.entities.Comentario;
+import com.exercicio.M03S02.entities.DataTransfer.ComentarioRequestDTO;
+import com.exercicio.M03S02.entities.DataTransfer.SugestaoRequestDTO;
 import com.exercicio.M03S02.entities.DataTransfer.SugestaoResponseDTO;
 import com.exercicio.M03S02.entities.Sugestao;
 import com.exercicio.M03S02.repository.SugestaoRepo;
@@ -22,9 +24,13 @@ public class SugestaoService implements SugestaoInterface {
 
 
     @Override
-    public Sugestao cadastrarSugestao(Sugestao novaSugestao) {
-        return repository.save(novaSugestao);
+    public SugestaoResponseDTO cadastrarSugestao(SugestaoRequestDTO novaSugestao) {
+        Sugestao nova =  new Sugestao(novaSugestao.getTitulo(), novaSugestao.getDescricao());
+        repository.save(nova);
+        return new SugestaoResponseDTO(nova);
     }
+
+
 
     @Override
     public List<Sugestao> listarSugestoes() {
@@ -63,7 +69,7 @@ public class SugestaoService implements SugestaoInterface {
     }
 
     @Override
-    public Comentario cadastrarComentario(Long id, Comentario comentario) {
+    public Comentario cadastrarComentario(Long id, ComentarioRequestDTO comentario) {
         if (!repository.existsById(id)) {
             //logger.error("Sugestão não encontrada, ID info: {}", id);
             throw new ResponseStatusException(
@@ -76,6 +82,8 @@ public class SugestaoService implements SugestaoInterface {
         sugestao.adicionaComentario(comentario);
 
         repository.save(sugestao);
+
+        
         return comentario;
     }
 }

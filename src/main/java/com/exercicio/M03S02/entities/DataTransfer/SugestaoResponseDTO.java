@@ -8,12 +8,12 @@ import java.util.List;
 
 public class SugestaoResponseDTO {
 
-    long id;
-    String titulo;
-    String descricao;
-    LocalDate dataEnvio;
-    LocalDate dataAtualizacao;
-    List<Comentario> comentarios;
+    private long id;
+    private String titulo;
+    private String descricao;
+    private LocalDate dataEnvio;
+    private LocalDate dataAtualizacao;
+    private List<Comentario> comentarios;
 
 
     public SugestaoResponseDTO() {
