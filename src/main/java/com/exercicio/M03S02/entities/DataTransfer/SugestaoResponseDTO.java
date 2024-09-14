@@ -2,9 +2,8 @@ package com.exercicio.M03S02.entities.DataTransfer;
 
 import com.exercicio.M03S02.entities.Comentario;
 import com.exercicio.M03S02.entities.Sugestao;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class SugestaoResponseDTO {
@@ -12,16 +11,16 @@ public class SugestaoResponseDTO {
     private long id;
     private String titulo;
     private String descricao;
-    private LocalDate dataEnvio;
-    private LocalDate dataAtualizacao;
+    private LocalDateTime dataEnvio;
+    private LocalDateTime dataAtualizacao;
 
-    @JsonIgnore
+
     private List<Comentario> comentarios;
 
 
     public SugestaoResponseDTO() {
     }
-    public SugestaoResponseDTO(long id, String titulo, String descricao, LocalDate dataEnvio, LocalDate dataAtualizacao, List<Comentario> comentarios) {
+    public SugestaoResponseDTO(long id, String titulo, String descricao, LocalDateTime dataEnvio, LocalDateTime dataAtualizacao, List<Comentario> comentarios) {
         this.id = id;
         this.titulo = titulo;
         this.descricao = descricao;
@@ -63,19 +62,19 @@ public class SugestaoResponseDTO {
         this.descricao = descricao;
     }
 
-    public LocalDate getDataEnvio() {
+    public LocalDateTime getDataEnvio() {
         return dataEnvio;
     }
 
-    public void setDataEnvio(LocalDate dataEnvio) {
+    public void setDataEnvio(LocalDateTime dataEnvio) {
         this.dataEnvio = dataEnvio;
     }
 
-    public LocalDate getDataAtualizacao() {
+    public LocalDateTime getDataAtualizacao() {
         return dataAtualizacao;
     }
 
-    public void setDataAtualizacao(LocalDate dataAtualizacao) {
+    public void setDataAtualizacao(LocalDateTime dataAtualizacao) {
         this.dataAtualizacao = dataAtualizacao;
     }
 

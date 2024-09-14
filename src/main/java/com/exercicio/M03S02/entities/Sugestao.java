@@ -1,8 +1,7 @@
 package com.exercicio.M03S02.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
@@ -22,10 +21,10 @@ public class Sugestao implements Comparable<Sugestao> {
     private String descricao;
 
     @Column(name = "data_envio")
-    private LocalDate dataEnvio;
+    private LocalDateTime dataEnvio;
 
     @Column(name = "data_atualizacao")
-    private LocalDate dataAtualizacao;
+    private LocalDateTime dataAtualizacao;
 
     @OneToMany
     private List<Comentario> comentarios;
@@ -34,8 +33,8 @@ public class Sugestao implements Comparable<Sugestao> {
     public Sugestao(String titulo, String descricao) {
         this.titulo = titulo;
         this.descricao = descricao;
-        this.dataEnvio = LocalDate.now();
-        this.dataAtualizacao = LocalDate.now();
+        this.dataEnvio = LocalDateTime.now();
+        this.dataAtualizacao = LocalDateTime.now();
     }
 
     public List<Comentario> getComentarios() {
@@ -66,20 +65,20 @@ public class Sugestao implements Comparable<Sugestao> {
         this.descricao = descricao;
     }
 
-    public LocalDate getDataEnvio() {
+    public LocalDateTime getDataEnvio() {
         return dataEnvio;
     }
 
-    public void setDataEnvio(LocalDate dataEnvio) {
+    public void setDataEnvio(LocalDateTime dataEnvio) {
         this.dataEnvio = dataEnvio;
     }
 
-    public LocalDate getDataAtualizacao() {
+    public LocalDateTime getDataAtualizacao() {
         return dataAtualizacao;
     }
 
     public void setDataAtualizacao() {
-        this.dataAtualizacao = LocalDate.now();
+        this.dataAtualizacao = LocalDateTime.now();
     }
 
     @Override
