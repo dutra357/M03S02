@@ -1,7 +1,9 @@
 package com.exercicio.M03S02.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -26,8 +28,11 @@ public class Sugestao implements Comparable<Sugestao> {
     @Column(name = "data_atualizacao")
     private LocalDateTime dataAtualizacao;
 
-    @OneToMany
+    @OneToMany(mappedBy = "sugestao")
+    @JsonIgnore
     private List<Comentario> comentarios;
+
+
 
     public Sugestao() {}
     public Sugestao(String titulo, String descricao) {

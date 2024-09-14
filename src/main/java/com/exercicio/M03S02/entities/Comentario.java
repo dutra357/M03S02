@@ -19,8 +19,10 @@ public class Comentario implements Comparable<Comentario> {
     @Column(name = "data_envio")
     private LocalDateTime dataEnvio;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Sugestao sugestao;
+
+
 
 
     public Comentario() {

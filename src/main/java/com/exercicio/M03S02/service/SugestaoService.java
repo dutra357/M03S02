@@ -33,8 +33,6 @@ public class SugestaoService implements SugestaoInterface {
         return new SugestaoResponseDTO(nova);
     }
 
-
-
     @Override
     public List<Sugestao> listarSugestoes() {
         if (repository.findAll().isEmpty()) {
