@@ -2,14 +2,19 @@ package com.exercicio.M03S02.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+
+import java.io.Serial;
+import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Table(name = "tb_sugestao")
-public class Sugestao implements Comparable<Sugestao> {
+public class Sugestao implements Comparable<Sugestao>, Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,7 +33,7 @@ public class Sugestao implements Comparable<Sugestao> {
     @Column(name = "data_atualizacao")
     private LocalDateTime dataAtualizacao;
 
-    @OneToMany(mappedBy = "sugestao")
+    @OneToMany(mappedBy = "sugestao", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Comentario> comentarios;
 

@@ -1,12 +1,19 @@
 package com.exercicio.M03S02.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import java.io.Serial;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
 @Table(name = "tb_comentario")
-public class Comentario implements Comparable<Comentario> {
+public class Comentario implements Comparable<Comentario>, Serializable {
+
+
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,7 +26,8 @@ public class Comentario implements Comparable<Comentario> {
     @Column(name = "data_envio")
     private LocalDateTime dataEnvio;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
+    @JsonIgnore
     private Sugestao sugestao;
 
 

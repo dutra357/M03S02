@@ -8,12 +8,13 @@ import com.exercicio.M03S02.entities.Sugestao;
 import com.exercicio.M03S02.repository.ComentarioRepo;
 import com.exercicio.M03S02.repository.SugestaoRepo;
 import com.exercicio.M03S02.service.interfaces.SugestaoInterface;
+import jakarta.transaction.Transactional;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class SugestaoService implements SugestaoInterface {
@@ -27,6 +28,7 @@ public class SugestaoService implements SugestaoInterface {
 
 
     @Override
+    @Transactional
     public SugestaoResponseDTO cadastrarSugestao(SugestaoRequestDTO novaSugestao) {
         Sugestao nova =  new Sugestao(novaSugestao.getTitulo(), novaSugestao.getDescricao());
         repository.save(nova);
@@ -34,7 +36,7 @@ public class SugestaoService implements SugestaoInterface {
     }
 
     @Override
-    public List<Sugestao> listarSugestoes() {
+    public List<SugestaoResponseDTO> listarSugestoes() {
         if (repository.findAll().isEmpty()) {
             //logger.error("Lista vazia. Não há sugestões cadastradas.");
             throw new ResponseStatusException(
@@ -46,7 +48,14 @@ public class SugestaoService implements SugestaoInterface {
         List<Sugestao> listaOrdenada = repository.findAll();
         Collections.sort(listaOrdenada);
 
-        return listaOrdenada;
+        List<SugestaoResponseDTO> responseList = new ArrayList<>();
+
+        for (Sugestao sugestao : listaOrdenada) {
+            SugestaoResponseDTO convertida = new SugestaoResponseDTO(sugestao);
+            responseList.add(convertida);
+        }
+
+        return responseList;
     }
 
     @Override
@@ -70,6 +79,7 @@ public class SugestaoService implements SugestaoInterface {
     }
 
     @Override
+    @Transactional
     public Comentario cadastrarComentario(Long id, ComentarioRequestDTO comentario) {
         if (!repository.existsById(id)) {
             //logger.error("Sugestão não encontrada, ID info: {}", id);
@@ -79,10 +89,10 @@ public class SugestaoService implements SugestaoInterface {
         }
         //logger.info("Retornando Curso solicidato, ID {}", id);
 
+
         Sugestao sugestao = repository.findById(id).get();
         Comentario novoComentario = new Comentario(sugestao, comentario.getComentario());
 
-        //sugestao.adicionaComentario(comentario);
         comentarioRepo.save(novoComentario);
         sugestao.setDataAtualizacao();
         repository.save(sugestao);

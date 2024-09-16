@@ -3,7 +3,6 @@ import com.exercicio.M03S02.entities.Comentario;
 import com.exercicio.M03S02.entities.DataTransfer.ComentarioRequestDTO;
 import com.exercicio.M03S02.entities.DataTransfer.SugestaoRequestDTO;
 import com.exercicio.M03S02.entities.DataTransfer.SugestaoResponseDTO;
-import com.exercicio.M03S02.entities.Sugestao;
 import com.exercicio.M03S02.service.SugestaoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -13,6 +12,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -40,7 +40,7 @@ public class SugestaoController {
     })
 
     @PostMapping
-    public ResponseEntity<SugestaoResponseDTO> cadastrarSugestao(@RequestBody SugestaoRequestDTO novaSugestao) {
+    public ResponseEntity<SugestaoResponseDTO> cadastrarSugestao(@RequestBody @Valid SugestaoRequestDTO novaSugestao) {
         // logger.info("Solicitado o cadastramento de nono Aluno.");
         return ResponseEntity.status(HttpServletResponse.SC_CREATED).body(service.cadastrarSugestao(novaSugestao));
     }
@@ -51,7 +51,7 @@ public class SugestaoController {
             @ApiResponse(responseCode = "404", description = "Não há Sugestões cadastradas."),
     })
     @GetMapping
-    public ResponseEntity<List<Sugestao>> listarSugestoes() {
+    public ResponseEntity<List<SugestaoResponseDTO>> listarSugestoes() {
         //logger.info("Solicitada listagem completa de Cursos cadastrados no sistema.");
         return ResponseEntity.status(HttpStatus.OK).body(service.listarSugestoes());
     }
@@ -75,7 +75,7 @@ public class SugestaoController {
                     content = @Content(schema = @Schema())),
     })
     @PostMapping("{id}/comentario")
-    public ResponseEntity<Comentario> cadastrarComentario(@PathVariable Long id, @RequestBody ComentarioRequestDTO novoComentario) {
+    public ResponseEntity<Comentario> cadastrarComentario(@PathVariable @Valid Long id, @RequestBody @Valid ComentarioRequestDTO novoComentario) {
         //logger.info("Solicitado dados do Curso ID {}.", id);
         return ResponseEntity.status(HttpStatus.OK).body(service.cadastrarComentario(id, novoComentario));
     }

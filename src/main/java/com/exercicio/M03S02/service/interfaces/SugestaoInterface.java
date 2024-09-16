@@ -12,7 +12,7 @@ public interface SugestaoInterface {
 
     SugestaoResponseDTO cadastrarSugestao(SugestaoRequestDTO novaSugestao);
 
-    List<Sugestao> listarSugestoes();
+    List<SugestaoResponseDTO> listarSugestoes();
 
     SugestaoResponseDTO obterSugestaoPorId(Long id);
 
