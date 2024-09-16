@@ -13,6 +13,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +27,7 @@ import java.util.List;
 @Tag(name = "API - SENAI M03S02")
 public class SugestaoController {
 
+    private static final Logger logger = LoggerFactory.getLogger(SugestaoController.class);
     public final SugestaoService service;
     public SugestaoController(SugestaoService service) {
         this.service = service;
@@ -41,7 +44,7 @@ public class SugestaoController {
 
     @PostMapping
     public ResponseEntity<SugestaoResponseDTO> cadastrarSugestao(@RequestBody @Valid SugestaoRequestDTO novaSugestao) {
-        // logger.info("Solicitado o cadastramento de nono Aluno.");
+        logger.info("Solicitado o cadastramento de nova Sugestão.");
         return ResponseEntity.status(HttpServletResponse.SC_CREATED).body(service.cadastrarSugestao(novaSugestao));
     }
 
@@ -52,7 +55,7 @@ public class SugestaoController {
     })
     @GetMapping
     public ResponseEntity<List<SugestaoResponseDTO>> listarSugestoes() {
-        //logger.info("Solicitada listagem completa de Cursos cadastrados no sistema.");
+        logger.info("Solicitada listagem de Sugestões.");
         return ResponseEntity.status(HttpStatus.OK).body(service.listarSugestoes());
     }
 
@@ -64,7 +67,7 @@ public class SugestaoController {
     })
     @GetMapping("{id}")
     public ResponseEntity<SugestaoResponseDTO> obterSugestaoPorId(@Parameter(description = "ID da Sugestão") @PathVariable Long id) {
-        //logger.info("Solicitado dados do Curso ID {}.", id);
+        logger.info("Solicitado Sugestão por ID, {}.", id);
         return ResponseEntity.status(HttpStatus.OK).body(service.obterSugestaoPorId(id));
     }
 
@@ -76,7 +79,7 @@ public class SugestaoController {
     })
     @PostMapping("{id}/comentario")
     public ResponseEntity<Comentario> cadastrarComentario(@PathVariable @Valid Long id, @RequestBody @Valid ComentarioRequestDTO novoComentario) {
-        //logger.info("Solicitado dados do Curso ID {}.", id);
+        logger.info("Cadastrando Comentário.");
         return ResponseEntity.status(HttpStatus.OK).body(service.cadastrarComentario(id, novoComentario));
     }
 }

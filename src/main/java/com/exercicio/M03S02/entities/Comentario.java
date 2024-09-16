@@ -1,6 +1,5 @@
 package com.exercicio.M03S02.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.io.Serial;
 import java.io.Serializable;
@@ -27,7 +26,7 @@ public class Comentario implements Comparable<Comentario>, Serializable {
     private LocalDateTime dataEnvio;
 
     @ManyToOne
-    @JsonIgnore
+    @JoinColumn(name = "sugestao_id")
     private Sugestao sugestao;
 
 

@@ -9,15 +9,18 @@ import com.exercicio.M03S02.repository.ComentarioRepo;
 import com.exercicio.M03S02.repository.SugestaoRepo;
 import com.exercicio.M03S02.service.interfaces.SugestaoInterface;
 import jakarta.transaction.Transactional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class SugestaoService implements SugestaoInterface {
+
+    private static final Logger logger = LoggerFactory.getLogger(SugestaoService.class);
 
     private final SugestaoRepo repository;
     public final ComentarioRepo comentarioRepo;
@@ -32,18 +35,19 @@ public class SugestaoService implements SugestaoInterface {
     public SugestaoResponseDTO cadastrarSugestao(SugestaoRequestDTO novaSugestao) {
         Sugestao nova =  new Sugestao(novaSugestao.getTitulo(), novaSugestao.getDescricao());
         repository.save(nova);
+        logger.info("Sugestão cadastrada com sucesso.");
         return new SugestaoResponseDTO(nova);
     }
 
     @Override
     public List<SugestaoResponseDTO> listarSugestoes() {
         if (repository.findAll().isEmpty()) {
-            //logger.error("Lista vazia. Não há sugestões cadastradas.");
+            logger.error("Lista vazia. Não há sugestões cadastradas.");
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "Não há sugestões cadastradas."
             );
         }
-        //logger.info("Retornando listagem completa de sugestões cadastrados.");
+        logger.info("Retornando listagem completa de sugestões cadastrados.");
 
         List<Sugestao> listaOrdenada = repository.findAll();
         Collections.sort(listaOrdenada);
@@ -61,12 +65,12 @@ public class SugestaoService implements SugestaoInterface {
     @Override
     public SugestaoResponseDTO obterSugestaoPorId(Long id) {
         if (!repository.existsById(id)) {
-            //logger.error("Sugestão não encontrada, ID info: {}", id);
+            logger.error("Sugestão não encontrada, ID info: {}", id);
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "Sugestão não encontrada."
             );
         }
-        //logger.info("Retornando Curso solicidato, ID {}", id);
+        logger.info("Retornando Sugestão solicitada, ID {}", id);
 
         Sugestao encontrada = repository.findById(id).get();
         SugestaoResponseDTO resposta = new SugestaoResponseDTO(encontrada);
@@ -82,13 +86,11 @@ public class SugestaoService implements SugestaoInterface {
     @Transactional
     public Comentario cadastrarComentario(Long id, ComentarioRequestDTO comentario) {
         if (!repository.existsById(id)) {
-            //logger.error("Sugestão não encontrada, ID info: {}", id);
+            logger.error("Não há Sugestão a ser vinculada (não encontrada), ID info: {}", id);
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "Sugestão não encontrada."
             );
         }
-        //logger.info("Retornando Curso solicidato, ID {}", id);
-
 
         Sugestao sugestao = repository.findById(id).get();
         Comentario novoComentario = new Comentario(sugestao, comentario.getComentario());
@@ -96,6 +98,8 @@ public class SugestaoService implements SugestaoInterface {
         comentarioRepo.save(novoComentario);
         sugestao.setDataAtualizacao();
         repository.save(sugestao);
+
+        logger.info("Comentário cadastrado com sucesso!");
 
         return novoComentario;
     }
