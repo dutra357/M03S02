@@ -6,8 +6,8 @@ import jakarta.persistence.*;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "tb_sugestao")
@@ -35,7 +35,7 @@ public class Sugestao implements Comparable<Sugestao>, Serializable {
 
     @OneToMany(mappedBy = "sugestao", cascade = CascadeType.ALL)
     @JsonIgnore
-    private List<Comentario> comentarios;
+    private Set<Comentario> comentarios;
 
 
 
@@ -47,7 +47,7 @@ public class Sugestao implements Comparable<Sugestao>, Serializable {
         this.dataAtualizacao = LocalDateTime.now();
     }
 
-    public List<Comentario> getComentarios() {
+    public Set<Comentario> getComentarios() {
         return comentarios;
     }
 

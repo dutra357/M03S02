@@ -5,8 +5,9 @@ import com.exercicio.M03S02.entities.Sugestao;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
-public class SugestaoResponseDTO {
+public class SugestaoResponseDTO implements Comparable<SugestaoResponseDTO> {
 
     private long id;
     private String titulo;
@@ -15,12 +16,12 @@ public class SugestaoResponseDTO {
     private LocalDateTime dataAtualizacao;
 
 
-    private List<Comentario> comentarios;
+    private Set<Comentario> comentarios;
 
 
     public SugestaoResponseDTO() {
     }
-    public SugestaoResponseDTO(long id, String titulo, String descricao, LocalDateTime dataEnvio, LocalDateTime dataAtualizacao, List<Comentario> comentarios) {
+    public SugestaoResponseDTO(long id, String titulo, String descricao, LocalDateTime dataEnvio, LocalDateTime dataAtualizacao, Set<Comentario> comentarios) {
         this.id = id;
         this.titulo = titulo;
         this.descricao = descricao;
@@ -78,11 +79,16 @@ public class SugestaoResponseDTO {
         this.dataAtualizacao = dataAtualizacao;
     }
 
-    public List<Comentario> getComentarios() {
+    public Set<Comentario> getComentarios() {
         return comentarios;
     }
 
-    public void setComentarios(List<Comentario> comentarios) {
+    public void setComentarios(Set<Comentario> comentarios) {
         this.comentarios = comentarios;
+    }
+
+    @Override
+    public int compareTo(SugestaoResponseDTO o) {
+        return getDataAtualizacao().compareTo(o.getDataAtualizacao());
     }
 }

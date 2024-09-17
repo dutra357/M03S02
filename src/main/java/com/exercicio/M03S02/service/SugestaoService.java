@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class SugestaoService implements SugestaoInterface {
@@ -49,16 +50,18 @@ public class SugestaoService implements SugestaoInterface {
         }
         logger.info("Retornando listagem completa de sugestões cadastrados.");
 
-        List<Sugestao> listaOrdenada = repository.findAll();
-        Collections.sort(listaOrdenada);
+        List<Sugestao> listaDb = repository.findAll();
 
         List<SugestaoResponseDTO> responseList = new ArrayList<>();
-
-        for (Sugestao sugestao : listaOrdenada) {
+        for (Sugestao sugestao : listaDb) {
             SugestaoResponseDTO convertida = new SugestaoResponseDTO(sugestao);
+
+            var ordenados = convertida.getComentarios().stream().sorted(Comparator.comparing(Comentario::getDataEnvio).reversed()).collect(Collectors.toCollection(LinkedHashSet::new));
+            convertida.setComentarios(ordenados);
+
             responseList.add(convertida);
         }
-
+        responseList.sort(Collections.reverseOrder());
         return responseList;
     }
 
@@ -73,10 +76,10 @@ public class SugestaoService implements SugestaoInterface {
         logger.info("Retornando Sugestão solicitada, ID {}", id);
 
         Sugestao encontrada = repository.findById(id).get();
+
         SugestaoResponseDTO resposta = new SugestaoResponseDTO(encontrada);
 
-        var ordenados = encontrada.getComentarios();
-        Collections.sort(ordenados);
+        var ordenados = encontrada.getComentarios().stream().sorted(Comparator.comparing(Comentario::getDataEnvio).reversed()).collect(Collectors.toCollection(LinkedHashSet::new));
         resposta.setComentarios(ordenados);
 
         return resposta;
