@@ -61,12 +61,17 @@ public class SugestaoService implements SugestaoInterface {
 
             responseList.add(convertida);
         }
+
         responseList.sort(Collections.reverseOrder());
         return responseList;
     }
 
     @Override
     public SugestaoResponseDTO obterSugestaoPorId(Long id) {
+        //assert id > 0 : "Id deve ser um valor positivo.";
+        //GUAVA Preconditions.checkNotNull(name, "Name is mandatory.");
+
+
         if (!repository.existsById(id)) {
             logger.error("Sugestão não encontrada, ID info: {}", id);
             throw new ResponseStatusException(
